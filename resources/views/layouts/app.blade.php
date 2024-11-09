@@ -27,10 +27,11 @@
                 <ul class="navbar-nav ml-auto">
                     @if(Auth::check())
                         <li class="nav-item"><a class="nav-link" href="{{ route('books.index') }}"><i class="fas fa-book"></i> Libros</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('authors.index') }}"><i class="fas fa-pen"></i> Autores</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('authors.index') }}"><i class="fas fa-user-secret"></i> Autores</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('genres.index') }}"><i class="fas fa-tags"></i> Géneros</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('editorials.index') }}"><i class="fas fa-building"></i> Editoriales</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('editorials.index') }}"><i class="fas fa-newspaper"></i> Editoriales</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('loans.index') }}"><i class="fas fa-book-reader"></i> Préstamos</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('user.list') }}"><i class="fas fa-users"></i> Usuarios</a></li>
                         <li class="nav-item">
                             <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                                 @csrf

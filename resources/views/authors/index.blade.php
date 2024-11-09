@@ -7,7 +7,7 @@
     <h1>Autores</h1>
     <div class="text-center mb-3">
         <a href="{{ route('authors.create') }}" class="btn btn-primary mb-3">Agregar Autor</a>
-    </div><br>
+    </div>
     <table class="table mt-3">
         <thead>
             <tr>

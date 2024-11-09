@@ -69,6 +69,14 @@
                                 <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Ingrese su nombre" required>
                             </div>
                             <div class="form-group">
+                                <label for="email">Correo:</label>
+                                <input type="email" name="email" id="email" class="form-control" placeholder="Ingrese su correo" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Contraseña:</label>
+                                <input type="password" name="password" id="password" class="form-control" placeholder="Ingrese su contraseña" required>
+                            </div>
+                            <div class="form-group">
                                 <input type="submit" value="Enviar" class="btn btn-primary btn-block">
                             </div>
                             <div class="form-group">
@@ -85,3 +93,5 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+
+

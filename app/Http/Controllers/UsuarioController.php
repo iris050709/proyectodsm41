@@ -40,48 +40,29 @@ class UsuarioController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        //dd($request->all());
-        /*$validated=$request->validate(
-            ['nombre' => 'required|string|max:10']
-        );
-        //dd($validated);
+{
+    $validated = $request->validate([
+        'nombre' => 'required|string|max:10',
+        'email' => 'required|email',
+        'password' => 'required|string|min:6'
+    ]);
 
-        Usuario::create([
-            'name' => $validated['nombre'],
-            'email' => 'correo@gmail.com',
-            'password' => '12345',
-        ]);*/
-        //$user = Usuario::create(['name' => 'Prueba', 'email' => 'prueba@example.com']);
+    // Determinar el rol en función del dominio del correo electrónico
+    $role = Str::endsWith($validated['email'], '@admin.com') ? 'admin' : 'user';
 
-        /*$validatedData = $request->validated();
-        //dd($validatedData);
-    
-        // Crear un nuevo usuario
-        $user = Usuario::create([
-            'name' => $validatedData['name'],
-            'email' => $validatedData['email'],
-        ]);
-        
-        // Verificar si el usuario fue creado
-        if ($user) {
-            return redirect()->route('usuario.index')->with('success', 'Usuario creado exitosamente');
-        } else {
-            return redirect()->back()->with('error', 'Error al crear el usuario');
-        }*/
-        //dd($request->all());
-        $validated= $request->validate(
-            ['nombre' => 'required|string|max:10']
-        );
-        Usuario::create([
-            'name' => $validated['nombre'],
-            'email' =>  Str::random(10).'@gmail', 
-            'password' => Hash::make("Hola123")
-        ]);
-        Alert::success('Exito Usuario Creado', 'El usuario ha sido creado')->flash();//EL  FLASH ES PARA QUE NO SE ELIMINE SOLO
-        //return view('vistas.list_users'); //PARA REDIRECCIONAR A UNA VISTA
-        return redirect()->route('user.list'); //PARA REDIRECCIONAR A UNA RUTA
-    }
+    // Crear el usuario con los datos ingresados y el rol determinado
+    Usuario::create([
+        'name' => $validated['nombre'],
+        'email' => $validated['email'],
+        'password' => Hash::make($validated['password']),
+        'role' => $role
+    ]);
+
+    Alert::success('Éxito', 'El usuario ha sido creado')->flash();
+
+    return redirect()->route('user.list');
+}
+
     
 
 
@@ -112,7 +93,7 @@ class UsuarioController extends Controller
         $usuario = Usuario::find($request->id);
         $usuario->name = $request->nombre;
         $usuario->save();
-        
+        Alert::success('Éxito', 'El usuario ha sido actualizado')->flash();
         return redirect()->route('user.list');
     }
 

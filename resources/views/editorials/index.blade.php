@@ -5,7 +5,7 @@
 <h1>Editoriales</h1>
 <div class="text-center mb-3">
 <a href="{{ route('editorials.create') }}" class="btn btn-primary">Agregar Editorial</a>
-</div><br>
+</div>
 <table class="table mt-3">
     <thead>
         <tr>
