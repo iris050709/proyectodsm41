@@ -15,6 +15,7 @@ Route::get('/', function () {
 });
 
 // Ruta para listar usuarios
+
 Route::get('/menu', [UsuarioController::class, 'index'])->name('usuario.menu');
 
 // Rutas para crear y almacenar un nuevo usuario
@@ -45,9 +46,11 @@ Route::get('/home', function(){
     return view('home');
 })->name('home');
 
-Route::resource('books', BookController::class);
-Route::resource('authors', AuthorController::class);
-Route::resource('editorials', EditorialController::class);
-Route::resource('genres', GenreController::class);
-Route::resource('loans', LoanController::class);
 
+Route::middleware([CheckAdmin::class])->group(function(){
+    Route::resource('books', BookController::class);
+    Route::resource('authors', AuthorController::class);
+    Route::resource('editorials', EditorialController::class);
+    Route::resource('genres', GenreController::class);
+    Route::resource('loans', LoanController::class);
+});

@@ -75,7 +75,7 @@ class UsuarioController extends Controller
         );
         Usuario::create([
             'name' => $validated['nombre'],
-            'email' =>  Str::random(10).'@gmail', //PARA QUE NO SEA REPETITIVO EL CORRECTO
+            'email' =>  Str::random(10).'@gmail', 
             'password' => Hash::make("Hola123")
         ]);
         Alert::success('Exito Usuario Creado', 'El usuario ha sido creado')->flash();//EL  FLASH ES PARA QUE NO SE ELIMINE SOLO

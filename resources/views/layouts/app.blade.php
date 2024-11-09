@@ -16,7 +16,7 @@
     @yield('styles')
 </head>
 <body>
-    @unless(request()->is('login')) 
+    @unless(request()->is('login'))
     <nav class="navbar navbar-expand-lg navbar-light bg-light shadow">
         <div class="container">
             <a class="navbar-brand" href="{{ route('home') }}">BIBLIOTECA</a>
@@ -25,21 +25,25 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
-                    @if(Auth::check()) <!-- Verifica si el usuario está autenticado -->
+                    @if(Auth::check())
                         <li class="nav-item"><a class="nav-link" href="{{ route('books.index') }}"><i class="fas fa-book"></i> Libros</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('authors.index') }}"><i class="fas fa-pen"></i> Autores</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('genres.index') }}"><i class="fas fa-tags"></i> Géneros</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('editorials.index') }}"><i class="fas fa-building"></i> Editoriales</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('loans.index') }}"><i class="fas fa-book-reader"></i> Préstamos</a></li>
+                        <li class="nav-item">
+                            <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                                @csrf
+                                <button type="submit" class="btn btn-link nav-link" style="color: inherit; text-decoration: none;">
+                                    <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+                                </button>
+                            </form>
+                        </li>
+                    @else
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('login') }}"><i class="fas fa-sign-in-alt"></i> Iniciar sesión</a>
+                        </li>
                     @endif
-                    <li class="nav-item">
-                        <form action="{{ route('logout') }}" method="POST" style="display: inline;">
-                            @csrf
-                            <button type="submit" class="btn btn-link nav-link" style="color: inherit; text-decoration: none;">
-                                <i class="fas fa-sign-out-alt"></i> Cerrar sesión
-                            </button>
-                        </form>
-                    </li>
                 </ul>
             </div>
         </div>
