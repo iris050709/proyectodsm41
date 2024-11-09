@@ -80,7 +80,7 @@
                                 <input type="submit" value="Enviar" class="btn btn-primary btn-block">
                             </div>
                             <div class="form-group">
-                                <a href="{{ route('user.list') }}" class="btn btn-secondary btn-block">Cancelar</a>
+                                <a href="{{ route('login') }}" class="btn btn-secondary btn-block">Cancelar</a>
                             </div>
                         </form>
                     </div>
