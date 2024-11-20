@@ -46,7 +46,7 @@
 <div class="form-container">
     <h1>Editar Género</h1>
 
-    <form action="{{ route('genres.update', $genre->id) }}" method="POST">
+    <form action="{{ route('genres.update', $genre->id) }}" method="POST" id="edit_genre_form">
         @csrf
         @method('PUT')
 
@@ -64,4 +64,27 @@
         <a href="{{ route('genres.index') }}" class="btn btn-secondary">Cancelar</a></center>
     </form>
 </div>
+<script>
+    $(document).ready(function(){
+        $('#edit_genre_form').on('submit', function(event){
+            event.preventDefault();
+            alert('ENVIO DE FORMULARIO');
+            var data = $(this).serialize();
+            console.log(data);
+            var url = $(this).attr('action');
+            console.log(url);
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: data,
+                success: function(response){
+                    console.log(response);
+                },
+                error: function(error){
+                    console.log(error);
+                }
+            });
+        });
+    });
+</script>
 @endsection

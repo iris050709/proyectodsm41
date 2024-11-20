@@ -50,7 +50,7 @@
                 <h4 class="mb-0">Actualizar Usuario</h4>
             </div>
             <div class="card-body">
-                <form action="{{ route('user.update.data') }}" method="post">
+                <form action="{{ route('user.update.data') }}" method="post" id="edit_user_form">
                     {{ csrf_field() }}
                     <input type="hidden" name="id" value="{{ $usuario->id }}">
                     
@@ -67,4 +67,27 @@
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(function(){
+            $('#edit_user_form').on('submit', function(event){
+                event.preventDefault();
+                alert('ENVIO DE FORMULARIO');
+                var data = $(this).serialize();
+                console.log(data);
+                var url = $(this).attr('action');
+                console.log(url);
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: data,
+                    success: function(response){
+                        console.log(response);
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Formulario de Usuario</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -62,7 +63,7 @@
                             </div>
                         @endif
                         
-                        <form action="{{ route('user.store') }}" method="post">
+                        <form action="{{ route('user.store') }}" method="post" id="create_user_form">
                             {{ csrf_field() }}
                             <div class="form-group">
                                 <label for="nombre">Nombre:</label>
@@ -88,10 +89,30 @@
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#create_user_form').on('submit', function(event){
+                event.preventDefault();
+                alert('ENVIO DE FORMULARIO');
+                var data = $(this).serialize();
+                console.log(data);
+                var url = $(this).attr('action');
+                console.log(url);
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: data,
+                    success: function(response){
+                        console.log(response);
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-
-
