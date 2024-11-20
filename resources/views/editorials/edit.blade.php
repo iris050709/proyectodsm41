@@ -65,24 +65,32 @@
         <a href="{{ route('editorials.index') }}" class="btn btn-secondary">Cancelar</a></center>
     </form>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function(){
         $('#edit_editorial_form').on('submit', function(event){
-            event.preventDefault();
+            event.preventDefault(); 
             alert('ENVIO DE FORMULARIO');
-            var data = $(this).serialize();
+            let data = $(this).serialize(); 
             console.log(data);
-            var url = $(this).attr('action');
+            let url = $(this).attr('action'); 
             console.log(url);
+            data += '&_method=PUT';
             $.ajax({
                 type: 'POST',
                 url: url,
                 data: data,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
+                },
                 success: function(response){
                     console.log(response);
+                    alert('Editorial actualizada correctamente');
+                    window.location.href = "{{ route('editorials.index') }}"; 
                 },
                 error: function(error){
-                    console.log(error);
+                    console.error(error);
+                    alert('Ocurrió un error al actualizar la editorial.');
                 }
             });
         });

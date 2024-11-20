@@ -51,28 +51,38 @@
             <label for="phone">Teléfono</label>
             <input type="text" class="form-control" id="phone" name="phone">
         </div>
-        <center><button type="submit" class="btn btn-primary">Guardar</button>
-        <a href="{{ route('editorials.index') }}" class="btn btn-secondary">Cancelar</a></center>
+        <center>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a href="{{ route('editorials.index') }}" class="btn btn-secondary">Cancelar</a>
+        </center>
     </form>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function(){
-        $('#create_editorial_form').on('submit', function(event){
-            event.preventDefault();
+    $(document).ready(function () {
+        $('#create_editorial_form').on('submit', function (event) {
+            event.preventDefault(); 
             alert('ENVIO DE FORMULARIO');
-            var data = $(this).serialize();
+            var data = $(this).serialize(); 
             console.log(data);
-            var url = $(this).attr('action');
+            var url = $(this).attr('action'); 
             console.log(url);
             $.ajax({
                 type: 'POST',
                 url: url,
                 data: data,
-                success: function(response){
-                    console.log(response);
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                error: function(error){
-                    console.log(error);
+                success: function (response) {
+                    console.log(response);
+                    alert('Editorial creada exitosamente');
+                    window.location.href = "{{ route('editorials.index') }}"; 
+                },
+                error: function (xhr) {
+                    console.error(xhr);
+                    alert('Hubo un error al guardar la editorial. Intenta de nuevo.');
                 }
             });
         });

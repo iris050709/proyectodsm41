@@ -67,27 +67,35 @@
             </div>
         </div>
     </div>
-    <script>
-        $(document).ready(function(){
-            $('#edit_user_form').on('submit', function(event){
-                event.preventDefault();
-                alert('ENVIO DE FORMULARIO');
-                var data = $(this).serialize();
-                console.log(data);
-                var url = $(this).attr('action');
-                console.log(url);
-                $.ajax({
-                    type: 'POST',
-                    url: url,
-                    data: data,
-                    success: function(response){
-                        console.log(response);
-                    },
-                    error: function(error){
-                        console.log(error);
-                    }
-                });
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('#edit_user_form').on('submit', function(event){
+            event.preventDefault(); 
+            alert('ENVIO DE FORMULARIO');
+            let data = $(this).serialize(); 
+            console.log(data);
+            let url = $(this).attr('action'); 
+            console.log(url);
+            data += '&_method=PUT';
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: data,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
+                },
+                success: function(response){
+                    console.log(response);
+                    alert('Usuario actualizado correctamente');
+                    window.location.href = "{{ route('user.list') }}"; 
+                },
+                error: function(error){
+                    console.error(error);
+                    alert('Ocurrió un error al actualizar el usuario.');
+                }
             });
         });
-    </script>
+    });
+</script>
 @endsection

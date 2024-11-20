@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 @section('content')
 <style>
     .form-container {
@@ -85,8 +85,8 @@
     </form>
 </div>
 <script>
-    $(document).ready(function(){
-        $('#create_book_form').on('submit', function(event){
+    $(document).ready(function() {
+        $('#create_book_form').on('submit', function(event) {
             event.preventDefault();
             alert('ENVIO DE FORMULARIO');
             var data = $(this).serialize();
@@ -97,11 +97,17 @@
                 type: 'POST',
                 url: url,
                 data: data,
-                success: function(response){
-                    console.log(response);
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                error: function(error){
+                success: function(response) {
+                    console.log(response);
+                    alert('Libro creado con éxito');
+                    window.location.href = "{{ route('books.index') }}";
+                },
+                error: function(error) {
                     console.log(error);
+                    alert('Hubo un error al crear el libro. Intenta de nuevo.');
                 }
             });
         });

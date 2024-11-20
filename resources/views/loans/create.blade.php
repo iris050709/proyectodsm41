@@ -79,9 +79,10 @@
         <a href="{{ route('loans.index') }}" class="btn btn-secondary">Cancelar</a></center>
     </form>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function(){
-        $('#create_loan_form').on('submit', function(event){
+    $(document).ready(function() {
+        $('#create_loan_form').on('submit', function(event) {
             event.preventDefault();
             alert('ENVIO DE FORMULARIO');
             var data = $(this).serialize();
@@ -92,11 +93,17 @@
                 type: 'POST',
                 url: url,
                 data: data,
-                success: function(response){
-                    console.log(response);
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                error: function(error){
+                success: function(response) {
+                    console.log(response);
+                    alert('Prestamo creado con éxito');
+                    window.location.href = "{{ route('loans.index') }}";
+                },
+                error: function(error) {
                     console.log(error);
+                    alert('Hubo un error al crear el prestamo. Intenta de nuevo.');
                 }
             });
         });

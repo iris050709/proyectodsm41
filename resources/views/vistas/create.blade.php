@@ -90,8 +90,8 @@
         </div>
     </div>
     <script>
-        $(document).ready(function(){
-            $('#create_user_form').on('submit', function(event){
+        $(document).ready(function() {
+            $('#create_user_form').on('submit', function(event) {
                 event.preventDefault();
                 alert('ENVIO DE FORMULARIO');
                 var data = $(this).serialize();
@@ -102,11 +102,17 @@
                     type: 'POST',
                     url: url,
                     data: data,
-                    success: function(response){
-                        console.log(response);
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    error: function(error){
+                    success: function(response) {
+                        console.log(response);
+                        alert('Usuario creado con éxito');
+                        window.location.href = "{{ route('user.list') }}";
+                    },
+                    error: function(error) {
                         console.log(error);
+                        alert('Hubo un error al crear el usuario. Intenta de nuevo.');
                     }
                 });
             });
