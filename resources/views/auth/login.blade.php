@@ -3,7 +3,7 @@
 @section('content')
 <div class="form-container">
     <h1>Iniciar Sesión</h1>
-    <form action="{{ route('login') }}" method="post">
+    <form id="login_form" action="{{ route('login') }}" method="post">
         @csrf
         <div class="form-group">
             <label for="email">Correo Electrónico:</label>
@@ -22,7 +22,36 @@
         <p>¿No tienes una cuenta? <a href="{{ route('user.create') }}">Regístrate aquí</a></p>
     </div>
 </div>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('#login_form').on('submit', function(event){
+            event.preventDefault(); 
+            alert('VERIFICAR DATOS');
+            let data = $(this).serialize(); 
+            console.log(data);
+            let url = $(this).attr('action'); 
+            console.log(url);
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: data,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
+                },
+                success: function(response){
+                    console.log(response);
+                    alert('Usuario correcto');
+                    window.location.href = "{{ route('home') }}"; 
+                },
+                error: function(error){
+                    console.error(error);
+                    alert('Ocurrió un error al encontrar el usuario.');
+                }
+            });
+        });
+    });
+</script>
 <style>
     .form-container {
         max-width: 400px;

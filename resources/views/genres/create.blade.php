@@ -42,7 +42,7 @@
 <div class="form-container">
     <h1>Agregar Nuevo Género</h1>
 
-    <form action="{{ route('genres.store') }}" method="POST" id="create_genre_form"
+    <form action="{{ route('genres.store') }}" method="POST" id="create_genre_form">
         @csrf
         <div class="form-group">
             <label for="name">Nombre:</label>

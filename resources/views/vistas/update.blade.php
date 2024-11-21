@@ -77,7 +77,6 @@
             console.log(data);
             let url = $(this).attr('action'); 
             console.log(url);
-            data += '&_method=PUT';
             $.ajax({
                 type: 'POST',
                 url: url,
