@@ -84,11 +84,11 @@
         <a href="{{ route('books.index') }}" class="btn btn-secondary">Cancelar</a></center>
     </form>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     $(document).ready(function() {
         $('#create_book_form').on('submit', function(event) {
             event.preventDefault();
-            alert('ENVIO DE FORMULARIO');
             var data = $(this).serialize();
             console.log(data);
             var url = $(this).attr('action');
@@ -102,13 +102,25 @@
                 },
                 success: function(response) {
                     console.log(response);
-                    alert('Libro creado con éxito');
-                    window.location.href = "{{ route('books.index') }}";
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Éxito!',
+                        text: 'Libro creado con éxito',
+                        confirmButtonText: 'Aceptar'
+                    }).then(function() {
+                        window.location.href = "{{ route('books.index') }}";
+                    });
                 },
                 error: function(error) {
                     console.log(error);
-                    alert('Hubo un error al crear el libro. Intenta de nuevo.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: '¡Error!',
+                        text: 'Hubo un error al crear el libro. Intenta de nuevo.',
+                        confirmButtonText: 'Aceptar'
+                    });
                 }
+
             });
         });
     });

@@ -56,12 +56,12 @@
         <a href="{{ route('genres.index') }}" class="btn btn-secondary">Cancelar</a></center>
     </form>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
         $('#create_genre_form').on('submit', function (event) {
             event.preventDefault(); 
-            alert('ENVIO DE FORMULARIO');
             var data = $(this).serialize(); 
             console.log(data);
             var url = $(this).attr('action'); 
@@ -75,12 +75,23 @@
                 },
                 success: function (response) {
                     console.log(response);
-                    alert('Genero creado exitosamente');
-                    window.location.href = "{{ route('genres.index') }}"; 
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Éxito!',
+                        text: 'Género creado exitosamente',
+                        confirmButtonText: 'Aceptar'
+                    }).then(function() {
+                        window.location.href = "{{ route('genres.index') }}";
+                    });
                 },
                 error: function (xhr) {
                     console.error(xhr);
-                    alert('Hubo un error al guardar el genero. Intenta de nuevo.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: '¡Error!',
+                        text: 'Hubo un error al guardar el género. Intenta de nuevo.',
+                        confirmButtonText: 'Aceptar'
+                    });
                 }
             });
         });

@@ -57,13 +57,12 @@
         </center>
     </form>
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
         $('#create_editorial_form').on('submit', function (event) {
             event.preventDefault(); 
-            alert('ENVIO DE FORMULARIO');
             var data = $(this).serialize(); 
             console.log(data);
             var url = $(this).attr('action'); 
@@ -77,12 +76,23 @@
                 },
                 success: function (response) {
                     console.log(response);
-                    alert('Editorial creada exitosamente');
-                    window.location.href = "{{ route('editorials.index') }}"; 
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Éxito!',
+                        text: 'Editorial creada exitosamente',
+                        confirmButtonText: 'Aceptar'
+                    }).then(function() {
+                        window.location.href = "{{ route('editorials.index') }}";
+                    });
                 },
                 error: function (xhr) {
                     console.error(xhr);
-                    alert('Hubo un error al guardar la editorial. Intenta de nuevo.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: '¡Error!',
+                        text: 'Hubo un error al guardar la editorial. Intenta de nuevo.',
+                        confirmButtonText: 'Aceptar'
+                    });
                 }
             });
         });

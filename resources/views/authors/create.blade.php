@@ -35,6 +35,7 @@
     }
 </style>
 
+<!-- Contenedor del formulario -->
 <div class="form-container">
     <h1>Agregar Autor</h1>
 
@@ -59,12 +60,16 @@
         <a href="{{ route('authors.index') }}" class="btn btn-secondary">Cancelar</a></center>
     </form>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
     $(document).ready(function() {
         $('#create_author_form').on('submit', function(event) {
-            event.preventDefault();
-            alert('ENVIO DE FORMULARIO');
+            event.preventDefault(); // Prevenir el envío del formulario
+
             var data = $(this).serialize();
             console.log(data);
             var url = $(this).attr('action');
@@ -78,15 +83,27 @@
                 },
                 success: function(response) {
                     console.log(response);
-                    alert('Autor creado con éxito');
-                    window.location.href = "{{ route('authors.index') }}";
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Éxito!',
+                        text: 'Autor creado con éxito',
+                        confirmButtonText: 'Aceptar'
+                    }).then(function() {
+                        window.location.href = "{{ route('authors.index') }}";
+                    });
                 },
                 error: function(error) {
                     console.log(error);
-                    alert('Hubo un error al crear al autor. Intenta de nuevo.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: '¡Error!',
+                        text: 'Hubo un error al crear al autor. Intenta de nuevo.',
+                        confirmButtonText: 'Aceptar'
+                    });
                 }
             });
         });
     });
 </script>
+
 @endsection

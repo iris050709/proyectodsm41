@@ -79,12 +79,12 @@
         <a href="{{ route('loans.index') }}" class="btn btn-secondary">Cancelar</a></center>
     </form>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
         $('#create_loan_form').on('submit', function(event) {
             event.preventDefault();
-            alert('ENVIO DE FORMULARIO');
             var data = $(this).serialize();
             console.log(data);
             var url = $(this).attr('action');
@@ -98,12 +98,23 @@
                 },
                 success: function(response) {
                     console.log(response);
-                    alert('Prestamo creado con éxito');
-                    window.location.href = "{{ route('loans.index') }}";
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Éxito!',
+                        text: 'Préstamo creado con éxito',
+                        confirmButtonText: 'Aceptar'
+                    }).then(function() {
+                        window.location.href = "{{ route('loans.index') }}";
+                    });
                 },
                 error: function(error) {
                     console.log(error);
-                    alert('Hubo un error al crear el prestamo. Intenta de nuevo.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: '¡Error!',
+                        text: 'Hubo un error al crear el préstamo. Intenta de nuevo.',
+                        confirmButtonText: 'Aceptar'
+                    });
                 }
             });
         });

@@ -20,16 +20,19 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            // Si las credenciales son correctas
             if (Auth::user()->role === 'admin') {
-                return redirect()->route('books.index');
+                // Si es un administrador, redirigir a los libros
+                return response()->json(['success' => true, 'redirect' => route('books.index')]);
             }
-            return redirect()->route('home');
+            // Si es un usuario normal
+            return response()->json(['success' => true, 'redirect' => route('home')]);
         }
 
-        return redirect()->back()->withErrors([
-            'email' => 'Las credenciales no coinciden con nuestros registros.'
-        ]);
+        // Si las credenciales no coinciden
+        return response()->json(['success' => false, 'message' => 'Las credenciales no coinciden con nuestros registros.']);
     }
+
 
     public function logout()
     {

@@ -22,12 +22,12 @@
         <p>¿No tienes una cuenta? <a href="{{ route('user.create') }}">Regístrate aquí</a></p>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function(){
         $('#login_form').on('submit', function(event){
             event.preventDefault(); 
-            alert('VERIFICAR DATOS');
             let data = $(this).serialize(); 
             console.log(data);
             let url = $(this).attr('action'); 
@@ -39,14 +39,36 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
                 },
-                success: function(response){
-                    console.log(response);
-                    alert('Usuario correcto');
-                    window.location.href = "{{ route('home') }}"; 
+                success: function(response) {
+                    if(response.success) {
+                        console.log(response);
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Éxito!',
+                            text: 'INICIO DE SESIÓN CORRECTO',
+                            confirmButtonText: 'Aceptar'
+                        }).then(function() {
+                            window.location.href = "{{ route('home') }}";
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: '¡Error!',
+                            text: response.message,
+                            confirmButtonText: 'Aceptar'
+                        }).then(function() {
+                            window.location.href = "{{ route('login') }}";
+                        });
+                    }
                 },
-                error: function(error){
+                error: function(error) {
                     console.error(error);
-                    alert('Ocurrió un error al encontrar el usuario.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: '¡Error!',
+                        text: 'Ocurrió un error al encontrar el usuario.',
+                        confirmButtonText: 'Aceptar'
+                    });
                 }
             });
         });

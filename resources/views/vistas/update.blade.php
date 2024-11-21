@@ -67,12 +67,12 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function(){
         $('#edit_user_form').on('submit', function(event){
             event.preventDefault(); 
-            alert('ENVIO DE FORMULARIO');
             let data = $(this).serialize(); 
             console.log(data);
             let url = $(this).attr('action'); 
@@ -84,14 +84,25 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
                 },
-                success: function(response){
+                success: function(response) {
                     console.log(response);
-                    alert('Usuario actualizado correctamente');
-                    window.location.href = "{{ route('user.list') }}"; 
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Éxito!',
+                        text: 'Usuario actualizado correctamente',
+                        confirmButtonText: 'Aceptar'
+                    }).then(function() {
+                        window.location.href = "{{ route('user.list') }}";
+                    });
                 },
-                error: function(error){
+                error: function(error) {
                     console.error(error);
-                    alert('Ocurrió un error al actualizar el usuario.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: '¡Error!',
+                        text: 'Ocurrió un error al actualizar el usuario.',
+                        confirmButtonText: 'Aceptar'
+                    });
                 }
             });
         });

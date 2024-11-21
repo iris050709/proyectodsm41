@@ -89,11 +89,11 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function() {
             $('#create_user_form').on('submit', function(event) {
                 event.preventDefault();
-                alert('ENVIO DE FORMULARIO');
                 var data = $(this).serialize();
                 console.log(data);
                 var url = $(this).attr('action');
@@ -107,12 +107,23 @@
                     },
                     success: function(response) {
                         console.log(response);
-                        alert('Usuario creado con éxito');
-                        window.location.href = "{{ route('user.list') }}";
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Éxito!',
+                            text: 'Usuario creado con éxito',
+                            confirmButtonText: 'Aceptar'
+                        }).then(function() {
+                            window.location.href = "{{ route('user.list') }}";
+                        });
                     },
                     error: function(error) {
                         console.log(error);
-                        alert('Hubo un error al crear el usuario. Intenta de nuevo.');
+                        Swal.fire({
+                            icon: 'error',
+                            title: '¡Error!',
+                            text: 'Hubo un error al crear el usuario. Intenta de nuevo.',
+                            confirmButtonText: 'Aceptar'
+                        });
                     }
                 });
             });

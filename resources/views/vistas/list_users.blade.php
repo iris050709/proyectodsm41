@@ -81,7 +81,7 @@
                     <td>{{ $usuario->name }}</td>
                     <td>
                         <a href="{{ route('user.update', $usuario->id) }}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i> Editar</a>
-                        <a href="{{ route('user.destroy', $usuario->id) }}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Delete</a>
+                        <a href="{{ route('user.destroy', $usuario->id) }}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</a>
                     </td>
                 </tr>
                 @endforeach

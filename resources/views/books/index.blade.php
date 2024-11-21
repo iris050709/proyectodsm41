@@ -32,7 +32,7 @@
                     <td>
                         <a href="{{ route('books.show', $book->id) }}" class="btn btn-info">Ver</a>
                         <a href="{{ route('books.edit', $book->id) }}" class="btn btn-warning">Editar</a>
-                        <form action="{{ route('books.destroy', $book->id) }}" method="POST" style="display: inline;">
+                        <form action="{{ route('books.destroy', $book->id) }}" method="POST" style="display: inline;" class="book_eliminar">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este libro?');">Eliminar</button>
@@ -47,6 +47,48 @@
             {{ $books->links('pagination::bootstrap-4') }}
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('.book_eliminar').on('submit', function(event){
+            event.preventDefault(); 
+            var form = $(this); 
+            var url = form.attr('action');  
+            console.log(url);
+            var data = form.serialize(); 
+            console.log(data); 
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: data,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')  
+                },
+                success: function(response) {
+                    console.log(response);
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Éxito!',
+                        text: 'Libro eliminado correctamente',
+                        confirmButtonText: 'Aceptar'
+                    }).then(function() {
+                        window.location.href = "{{ route('books.index') }}";
+                    });
+                },
+                error: function(error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '¡Error!',
+                        text: 'Ocurrió un error al eliminar el libro. Intenta de nuevo.',
+                        confirmButtonText: 'Aceptar'
+                    });
+                }
+            });
+        });
+    });
+</script>
     <style>
         body {
             background-color: #f8f9fa;

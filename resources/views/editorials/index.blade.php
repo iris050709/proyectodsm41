@@ -24,7 +24,7 @@
             <td>
                 <a href="{{ route('editorials.show', $editorial->id) }}" class="btn btn-info">Ver</a>
                 <a href="{{ route('editorials.edit', $editorial->id) }}" class="btn btn-warning">Editar</a>
-                <form action="{{ route('editorials.destroy', $editorial->id) }}" method="POST" style="display:inline;">
+                <form action="{{ route('editorials.destroy', $editorial->id) }}" method="POST" style="display:inline;" class="edit_eliminar">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">Eliminar</button>
@@ -39,6 +39,48 @@
         {{ $editorials->links('pagination::bootstrap-4') }}
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('.edit_eliminar').on('submit', function(event){
+            event.preventDefault(); 
+            var form = $(this); 
+            var url = form.attr('action');  
+            console.log(url);
+            var data = form.serialize(); 
+            console.log(data); 
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: data,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')  
+                },
+                success: function(response) {
+                    console.log(response);
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Éxito!',
+                        text: 'Editorial eliminada correctamente',
+                        confirmButtonText: 'Aceptar'
+                    }).then(function() {
+                        window.location.href = "{{ route('editorials.index') }}";
+                    });
+                },
+                error: function(error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '¡Error!',
+                        text: 'Ocurrió un error al eliminar la editorial. Intenta de nuevo.',
+                        confirmButtonText: 'Aceptar'
+                    });
+                }
+            });
+        });
+    });
+</script>
 <style>
     body {
         background-color: #f8f9fa;

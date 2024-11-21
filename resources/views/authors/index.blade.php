@@ -26,7 +26,7 @@
                 <td>
                     <a href="{{ route('authors.show', $author->id) }}" class="btn btn-info">Ver</a>
                     <a href="{{ route('authors.edit', $author->id) }}" class="btn btn-warning">Editar</a>
-                    <form action="{{ route('authors.destroy', $author->id) }}" method="POST" style="display:inline;">
+                    <form action="{{ route('authors.destroy', $author->id) }}" method="POST" style="display:inline;" class="auth_eliminar">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este autor?');">Eliminar</button>
@@ -43,6 +43,49 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('.auth_eliminar').on('submit', function(event){
+            event.preventDefault(); 
+            var form = $(this); 
+            var url = form.attr('action');  
+            console.log(url);
+            var data = form.serialize(); 
+            console.log(data); 
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: data,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')  
+                },
+                success: function(response) {
+                    console.log(response);
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Éxito!',
+                        text: 'Autor eliminado correctamente',
+                        confirmButtonText: 'Aceptar'
+                    }).then(function() {
+                        window.location.href = "{{ route('authors.index') }}";
+                    });
+                },
+                error: function(error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '¡Error!',
+                        text: 'Ocurrió un error al eliminar el autor. Intenta de nuevo.',
+                        confirmButtonText: 'Aceptar'
+                    });
+                }
+            });
+        });
+    });
+</script>
 
 <style>
     body {

@@ -64,12 +64,12 @@
         <a href="{{ route('genres.index') }}" class="btn btn-secondary">Cancelar</a></center>
     </form>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function(){
         $('#edit_genre_form').on('submit', function(event){
             event.preventDefault(); 
-            alert('ENVIO DE FORMULARIO');
             let data = $(this).serialize(); 
             console.log(data);
             let url = $(this).attr('action'); 
@@ -82,14 +82,25 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
                 },
-                success: function(response){
+                success: function(response) {
                     console.log(response);
-                    alert('Genero actualizado correctamente');
-                    window.location.href = "{{ route('genres.index') }}"; 
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Éxito!',
+                        text: 'Género actualizado correctamente',
+                        confirmButtonText: 'Aceptar'
+                    }).then(function() {
+                        window.location.href = "{{ route('genres.index') }}";
+                    });
                 },
-                error: function(error){
+                error: function(error) {
                     console.error(error);
-                    alert('Ocurrió un error al actualizar el genero.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: '¡Error!',
+                        text: 'Ocurrió un error al actualizar el género.',
+                        confirmButtonText: 'Aceptar'
+                    });
                 }
             });
         });

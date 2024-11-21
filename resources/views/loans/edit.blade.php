@@ -83,12 +83,12 @@
         <a href="{{ route('loans.index') }}" class="btn btn-secondary">Cancelar</a></center>
     </form>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function(){
         $('#edit_loan_form').on('submit', function(event){
             event.preventDefault(); 
-            alert('ENVIO DE FORMULARIO');
             let data = $(this).serialize(); 
             console.log(data);
             let url = $(this).attr('action'); 
@@ -101,14 +101,25 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
                 },
-                success: function(response){
+                success: function(response) {
                     console.log(response);
-                    alert('Prestamo actualizado correctamente');
-                    window.location.href = "{{ route('loans.index') }}"; 
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Éxito!',
+                        text: 'Préstamo actualizado correctamente',
+                        confirmButtonText: 'Aceptar'
+                    }).then(function() {
+                        window.location.href = "{{ route('loans.index') }}";
+                    });
                 },
-                error: function(error){
+                error: function(error) {
                     console.error(error);
-                    alert('Ocurrió un error al actualizar el prestamo.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: '¡Error!',
+                        text: 'Ocurrió un error al actualizar el préstamo.',
+                        confirmButtonText: 'Aceptar'
+                    });
                 }
             });
         });
