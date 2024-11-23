@@ -30,10 +30,9 @@ class EditorialController extends Controller
             'address' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:20',
         ]);
-
         Editorial::create($request->all());
         Alert::success('Editorial Creada', 'La editorial ha sido creada')->flash();
-        return redirect()->route('editorials.index');
+        return response()->json(['success' => True]);
     }
 
     public function show(Editorial $editorial)
@@ -53,10 +52,9 @@ class EditorialController extends Controller
             'address' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:20',
         ]);
-
         $editorial->update($request->all());
         Alert::success('Editorial Actualizada', 'La editorial ha sido actualizada')->flash();
-        return redirect()->route('editorials.index');
+        return response()->json(['success' => True]);
     }
 
     public function destroy(Editorial $editorial)

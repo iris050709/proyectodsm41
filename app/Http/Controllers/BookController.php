@@ -41,10 +41,9 @@ class BookController extends Controller
             'description' => 'nullable|string',
             'stock' => 'required|integer|min:0',
         ]);
-
+        return response()->json(['success' => True]);
         Book::create($request->all());
         Alert::success('Libro Creado', 'El libro ha sido creado')->flash();
-        return redirect()->route('books.index');
     }
 
     public function show(Book $book)
@@ -71,10 +70,9 @@ class BookController extends Controller
             'description' => 'nullable|string',
             'stock' => 'required|integer|min:0',
         ]);
-
+        return response()->json(['success' => True]);
         $book->update($request->all());
         Alert::success('Libro Actualizado', 'El libro ha sido actualizado')->flash();
-        return redirect()->route('books.index');
     }
 
     public function destroy(Book $book)

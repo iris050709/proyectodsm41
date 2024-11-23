@@ -68,7 +68,7 @@
 <script>
     $(document).ready(function() {
         $('#create_author_form').on('submit', function(event) {
-            event.preventDefault(); // Prevenir el envío del formulario
+            event.preventDefault(); 
 
             var data = $(this).serialize();
             console.log(data);

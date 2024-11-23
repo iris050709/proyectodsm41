@@ -45,7 +45,7 @@ class LoanController extends Controller
             'returned' => false,
         ]);
         Alert::success('Prestamo Creado', 'El prestamo ha sido creado')->flash();
-        return redirect()->route('loans.index');
+        return response()->json(['success' => True]);
     }
 
     public function show(Loan $loan)
@@ -76,7 +76,7 @@ class LoanController extends Controller
             'return_date' => $request->return_date,
         ]);
         Alert::success('Prestamo Actualizado', 'El prestamo ha sido actualizado')->flash();
-        return redirect()->route('loans.index');
+        return response()->json(['success' => True]);
     }
 
     public function destroy(Loan $loan)

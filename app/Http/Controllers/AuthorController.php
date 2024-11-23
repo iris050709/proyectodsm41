@@ -39,10 +39,10 @@ class AuthorController extends Controller
             'bio' => 'nullable|string',
             'birth_date' => 'nullable|date',
         ]);
-
+        
         Author::create($request->all());
         Alert::success('Autor Creado', 'El autor ha sido creado')->flash();
-        return redirect()->route('authors.index');
+        return response()->json(['success' => True]);
     }
 
     // Mostrar formulario de edición
@@ -59,10 +59,10 @@ class AuthorController extends Controller
             'bio' => 'nullable|string',
             'birth_date' => 'nullable|date',
         ]);
-
+        
         $author->update($request->all());
         Alert::success('Autor Actualizado', 'Los datos del autor ha sido actualizado')->flash();
-        return redirect()->route('authors.index');
+        return response()->json(['success' => True]);
     }
 
     // Eliminar un autor

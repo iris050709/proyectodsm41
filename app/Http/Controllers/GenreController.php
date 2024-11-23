@@ -33,7 +33,7 @@ class GenreController extends Controller
 
         Genre::create($request->all());
         Alert::success('Genero Creado', 'El genero ha sido creado')->flash();
-        return redirect()->route('genres.index');
+        return response()->json(['success' => True]);
     }
 
     public function show(Genre $genre)
@@ -52,10 +52,10 @@ class GenreController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
         ]);
-
+        
         $genre->update($request->all());
         Alert::success('Genero Actualizado', 'El genero ha sido actualizado')->flash();
-        return redirect()->route('genres.index');
+        return response()->json(['success' => True]);
     }
 
     public function destroy(Genre $genre)
